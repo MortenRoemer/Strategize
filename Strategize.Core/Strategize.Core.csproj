@@ -3,7 +3,8 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <RootNamespace>Strategize</RootNamespace>
-        <LangVersion>9</LangVersion>
+        <LangVersion>8</LangVersion>
+        <Authors>Morten Römer</Authors>
     </PropertyGroup>
 
 </Project>

@@ -5,18 +5,18 @@ namespace Strategize
 {
     public interface IAgent<TContext>
     {
-        PrioritizedItem<float, IAction<TContext>> CurrentAction { get; }
+        IAction<TContext> CurrentAction { get; }
         
-        IReadOnlyList<PrioritizedItem<float, IAction<TContext>>> QueuedActions { get; }
+        IEnumerable<IAction<TContext>> QueuedActions { get; }
 
-        IReadOnlyList<IStrategy<TContext>> Strategies { get; }
+        IEnumerable<IStrategy<TContext>> Strategies { get; }
         
         void Clear();
 
-        void Consider(IStrategy<TContext> strategy);
+        void Consider(IStrategy<TContext> strategy, TContext context);
 
         void Drop(IStrategy<TContext> strategy);
 
-        void Tick();
+        void Tick(TContext context);
     }
 }

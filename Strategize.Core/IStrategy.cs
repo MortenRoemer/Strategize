@@ -4,6 +4,6 @@ namespace Strategize
 {
     public interface IStrategy<in TContext>
     {
-        IReadOnlyCollection<IAction<TContext>> Actions { get; }
+        IEnumerable<IAction<TContext>> Actions { get; }
     }
 }
