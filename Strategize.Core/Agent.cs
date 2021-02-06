@@ -42,7 +42,6 @@ namespace Strategize
             
             foreach (var action in strategy.Actions)
                 _queuedActions.Remove(action);
-
         }
 
         public void Tick(TContext context)
@@ -51,12 +50,12 @@ namespace Strategize
 
             if (!nextAction.Equals(CurrentAction))
             {
-                CurrentAction.OnFinish(context);
+                CurrentAction?.OnFinish(context);
                 CurrentAction = nextAction;
-                CurrentAction.OnEnter(context);
+                CurrentAction?.OnEnter(context);
             }
             
-            CurrentAction.OnTick(context);
+            CurrentAction?.OnTick(context);
         }
 
         public override string ToString()
