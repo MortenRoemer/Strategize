@@ -87,9 +87,10 @@ namespace Strategize.Test
                 // no action required
             }
 
-            public void OnTick(ExampleContext context)
+            public ActionResult OnTick(ExampleContext context)
             {
                 context.EatSomething();
+                return ActionResult.Yield;
             }
 
             public void OnFinish(ExampleContext context)
@@ -116,9 +117,10 @@ namespace Strategize.Test
                 // no action required
             }
 
-            public void OnTick(ExampleContext context)
+            public ActionResult OnTick(ExampleContext context)
             {
                 context.Exercise();
+                return ActionResult.Yield;
             }
 
             public void OnFinish(ExampleContext context)

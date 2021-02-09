@@ -5,6 +5,13 @@
         <RootNamespace>Strategize</RootNamespace>
         <LangVersion>8</LangVersion>
         <Authors>Morten Römer</Authors>
+        <Title>Strategize.Core</Title>
+        <Description>Library for strategy-based decision-making in agents</Description>
+        <Copyright>2020</Copyright>
+        <PackageProjectUrl>https://github.com/MortenRoemer/Strategize</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/MortenRoemer/Strategize/blob/main/LICENSE</PackageLicenseUrl>
+        <RepositoryUrl>https://github.com/MortenRoemer/Strategize</RepositoryUrl>
+        <RepositoryType>Git</RepositoryType>
     </PropertyGroup>
 
 </Project>
