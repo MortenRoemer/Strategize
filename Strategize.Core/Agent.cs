@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Strategize.Utility;
 
@@ -12,6 +13,7 @@ namespace Strategize
         {
             _queuedActions = new PriorityHeap<float, IAction<TContext>>();
             _strategies = new List<IStrategy<TContext>>(DEFAULT_STRATEGY_CAPACITY);
+            _locked = false;
         }
         
         public IAction<TContext> CurrentAction { get; private set; }
@@ -24,6 +26,7 @@ namespace Strategize
             CurrentAction = default;
             _queuedActions.Clear();
             _strategies.Clear();
+            _locked = false;
         }
 
         public void Consider(IStrategy<TContext> strategy, TContext context)
@@ -42,20 +45,45 @@ namespace Strategize
             
             foreach (var action in strategy.Actions)
                 _queuedActions.Remove(action);
+
+            if (CurrentAction.Strategy.Equals(strategy))
+                _locked = false;
         }
 
         public void Tick(TContext context)
         {
-            var nextAction = _queuedActions.PeekMax().Item;
-
-            if (!nextAction.Equals(CurrentAction))
+            if (!_locked)
             {
-                CurrentAction?.OnFinish(context);
-                CurrentAction = nextAction;
-                CurrentAction?.OnEnter(context);
+                var nextAction = _queuedActions.PeekMax().Item;
+
+                if (!nextAction.Equals(CurrentAction))
+                {
+                    CurrentAction?.OnFinish(context);
+                    CurrentAction = nextAction;
+                    CurrentAction?.OnEnter(context);
+                }
             }
+
+            if (CurrentAction is null)
+                return;
             
-            CurrentAction?.OnTick(context);
+            var result = CurrentAction.OnTick(context);
+
+            switch (result)
+            {
+                case ActionResult.Yield:
+                    _locked = false;
+                    break;
+                case ActionResult.Reconsider:
+                    _locked = false;
+                    Consider(CurrentAction.Strategy, context);
+                    break;
+                case ActionResult.Continue:
+                    _locked = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public override string ToString()
@@ -71,6 +99,7 @@ namespace Strategize
         
         private readonly PriorityHeap<float, IAction<TContext>> _queuedActions;
         private readonly List<IStrategy<TContext>> _strategies;
+        private bool _locked;
 
         #endregion
     }

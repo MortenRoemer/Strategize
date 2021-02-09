@@ -8,7 +8,7 @@
         
         void OnEnter(TContext context);
 
-        void OnTick(TContext context);
+        ActionResult OnTick(TContext context);
 
         void OnFinish(TContext context);
     }
