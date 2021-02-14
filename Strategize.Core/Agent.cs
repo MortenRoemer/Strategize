@@ -35,7 +35,7 @@ namespace Strategize
                 _strategies.Add(strategy);
 
             foreach (var action in strategy.Actions)
-                _queuedActions.Insert(action.EvaluatePriority(context), action);
+                _queuedActions.Insert(action.EvaluatePriority(context) + action.Strategy.Bias, action);
         }
 
         public void Drop(IStrategy<TContext> strategy)

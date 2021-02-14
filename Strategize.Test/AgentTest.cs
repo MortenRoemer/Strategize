@@ -67,6 +67,7 @@ namespace Strategize.Test
             private ExampleStrategy() {}
 
             public IEnumerable<IAction<ExampleContext>> Actions => _actions.Value;
+            public float Bias { get; set; }
         }
 
         private class EatAction : IAction<ExampleContext>
